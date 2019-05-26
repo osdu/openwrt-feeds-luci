@@ -36,8 +36,8 @@ LUCI_LANG.sv=Svenska (Swedish)
 LUCI_LANG.tr=Türkçe (Turkish)
 LUCI_LANG.uk=Українська (Ukrainian)
 LUCI_LANG.vi=Tiếng Việt (Vietnamese)
-LUCI_LANG.zh-cn=中文 (Chinese)
-LUCI_LANG.zh-tw=臺灣華語 (Taiwanese)
+LUCI_LANG.zh-cn=简体中文 (Chinese)
+LUCI_LANG.zh-tw=繁體中文 (Taiwanese)
 
 # Submenu titles
 LUCI_MENU.col=1. Collections
@@ -59,7 +59,7 @@ PKG_VERSION?=$(if $(DUMP),x,$(strip $(shell \
 			set -- $$(git log -1 --format="%ct %h" --abbrev=7); \
 			secs="$$(($$1 % 86400))"; \
 			yday="$$(date --utc --date="@$$1" "+%y.%j")"; \
-			revision="$$(printf 'git-%s.%05d-%s' "$$yday" "$$secs" "$$2")"; \
+			revision="$$(printf 'git-20%s.%05d-%s' "$$yday" "$$secs" "$$2")"; \
 		fi; \
 	else \
 		revision="unknown"; \
@@ -92,12 +92,13 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/$(PKG_NAME)
   SECTION:=luci
-  CATEGORY:=LuCI
+  CATEGORY:=$(if $(LUCI_CATEGORY),$(LUCI_CATEGORY),LuCI)
   SUBMENU:=$(if $(LUCI_MENU.$(LUCI_TYPE)),$(LUCI_MENU.$(LUCI_TYPE)),$(LUCI_MENU.app))
   TITLE:=$(if $(LUCI_TITLE),$(LUCI_TITLE),LuCI $(LUCI_NAME) $(LUCI_TYPE))
   DEPENDS:=$(LUCI_DEPENDS)
   $(if $(LUCI_EXTRA_DEPENDS),EXTRA_DEPENDS:=$(LUCI_EXTRA_DEPENDS))
   $(if $(LUCI_PKGARCH),PKGARCH:=$(LUCI_PKGARCH))
+  $(if $(LUCI_CONFLICTS),CONFLICTS:=$(LUCI_CONFLICTS))
 endef
 
 ifneq ($(LUCI_DESCRIPTION),)
@@ -186,6 +187,20 @@ define Package/$(PKG_NAME)/install
 	  $(call Build/Install/Default) \
 	  $(CP) $(PKG_INSTALL_DIR)/* $(1)/; \
 	else true; fi
+
+	if [ "$(LUCI_MAKE_LUAC)" != "" -a -d "$(1)$(LUCI_LIBRARYDIR)" ]; then \
+		(cd "$(1)$(LUCI_LIBRARYDIR)" && find . -type f -name '*.lua' ! -name "ccache.lua" ! -name "debug.lua" -exec $(STAGING_DIR_HOSTPKG)/bin/luac -s -o {} {} \;); \
+	else true; fi
+	(cd "$(1)" && find . -type d -exec chmod 0755 {} \;) || true;
+	(cd "$(1)" && find . -type f -exec chmod 0644 {} \;) || true;
+	if [ -d "$(1)/bin" ]; then chmod 0755 -R "$(1)/bin"; else true; fi
+	if [ -d "$(1)/sbin" ]; then chmod 0755 -R "$(1)/sbin"; else true; fi
+	if [ -d "$(1)/usr/bin" ]; then chmod 0755 -R "$(1)/usr/bin"; else true; fi
+	if [ -d "$(1)/usr/sbin" ]; then chmod 0755 -R "$(1)/usr/sbin"; else true; fi
+	if [ -d "$(1)/etc/init.d" ]; then chmod 0755 -R "$(1)/etc/init.d"; else true; fi
+	if [ -d "$(1)/etc/cron.d" ]; then chmod 0755 -R "$(1)/etc/cron.d"; else true; fi
+	if [ -d "$(1)/etc/firewall.d" ]; then chmod 0755 -R "$(1)/etc/firewall.d"; else true; fi
+	if [ -d "$(1)/www/cgi-bin" ]; then chmod 0755 -R "$(1)/www/cgi-bin"; else true; fi
 endef
 
 ifneq ($(LUCI_DEFAULTS),)
