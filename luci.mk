@@ -101,6 +101,12 @@ define Package/$(PKG_NAME)
   $(if $(LUCI_CONFLICTS),CONFLICTS:=$(LUCI_CONFLICTS))
 endef
 
+ifneq ($(PKG_SUBDIR),)
+ define Package/$(PKG_NAME)/subdir
+   $(strip $(PKG_SUBDIR))
+ endef
+endif
+
 ifneq ($(LUCI_DESCRIPTION),)
  define Package/$(PKG_NAME)/description
    $(strip $(LUCI_DESCRIPTION))
@@ -225,6 +231,8 @@ define LuciTranslation
     DEPENDS:=$(PKG_NAME)
     PKGARCH:=all
   endef
+
+  Package/luci-i18n-$(LUCI_BASENAME)-$(1)/subdir=$(call Package/$(PKG_NAME)/subdir)
 
   define Package/luci-i18n-$(LUCI_BASENAME)-$(1)/description
     Translation for $(PKG_NAME) - $(LUCI_LANG.$(1))
