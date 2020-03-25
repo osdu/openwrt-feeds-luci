@@ -188,6 +188,7 @@ define Package/$(PKG_NAME)/install
 	if [ -d $(PKG_BUILD_DIR)/htdocs ]; then \
 	  $(INSTALL_DIR) $(1)$(HTDOCS); \
 	  cp -pR $(PKG_BUILD_DIR)/htdocs/* $(1)$(HTDOCS)/; \
+	  (cd $(1)$(HTDOCS)/luci-static && find -type f -name '*.less' -print0 |xargs -0 -r rm); \
 	else true; fi
 	if [ -d $(PKG_BUILD_DIR)/root ]; then \
 	  $(INSTALL_DIR) $(1)/; \
