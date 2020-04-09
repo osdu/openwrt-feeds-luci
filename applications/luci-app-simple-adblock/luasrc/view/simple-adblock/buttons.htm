@@ -1,16 +1,27 @@
 <%# Copyright 2020 Stan Grishin <stangri@melmac.net> -%>
 
-<%+https-dns-proxy/css%>
-<%+https-dns-proxy/js%>
+<%+simple-adblock/css%>
+<%+simple-adblock/js%>
 
 <%-
-	local packageName = "https-dns-proxy"
+	local packageName = "simple-adblock"
 	local serviceRunning, serviceEnabled = false, false;
-
-	serviceEnabled = luci.sys.init.enabled(packageName)
-	local ubusStatus = luci.util.ubus("service", "list", { name = packageName })
-	if ubusStatus and ubusStatus[packageName] then
+	local tmpfs, tmpfsStatus;
+	if nixio.fs.access("/var/run/" .. packageName .. ".json") then
+		tmpfs = luci.jsonc.parse(luci.util.trim(luci.sys.exec("cat /var/run/" .. packageName .. ".json")))
+		if tmpfs and tmpfs['data'] and tmpfs['data']['status'] then
+			tmpfsStatus = tmpfs['data']['status']
+		end
+	end
+	if tmpfsStatus == "statusStarting" or tmpfsStatus == "statusRestarting" or 
+			tmpfsStatus == "statusForceReloading" or tmpfsStatus == "statusDownloading" or 
+			tmpfsStatus == "statusError" or tmpfsStatus == "statusWarning"
+			or tmpfsStatus == "statusSuccess" then
 		serviceRunning = true
+	end
+
+	if luci.model.uci.cursor():get(packageName, "config", "enabled") == "1" then
+		serviceEnabled = true
 	end
 
 	if serviceEnabled then
@@ -41,7 +52,7 @@
 		<input type="button" class="cbi-button cbi-button-apply" id="btn_start" name="start" value="<%:Start%>"
 			onclick="button_action(this)" />
 		<span id="btn_start_spinner" class="btn_spinner"></span>
-		<input type="button" class="cbi-button cbi-button-apply" id="btn_action" name="action" value="<%:Reload%>"
+		<input type="button" class="cbi-button cbi-button-apply" id="btn_action" name="action" value="<%:Force Re-Download%>"
 			onclick="button_action(this)" />
 		<span id="btn_action_spinner" class="btn_spinner"></span>
 		<input type="button" class="cbi-button cbi-button-reset" id="btn_stop" name="stop" value="<%:Stop%>"

@@ -31,7 +31,7 @@
 	btn_enable.disabled = true;
 	btn_disable.disabled = true;
 	spinner(btn_spinner, 1);
-	xhr.get('<%=luci.dispatcher.build_url("admin", "vpn", "vpnbypass", "action")%>/' + action.name, null,
+	xhr.get('<%=luci.dispatcher.build_url("admin", "services", "simple-adblock", "action")%>/' + action.name, null,
 		function (x) {
 			if (!x) {
 				return;
