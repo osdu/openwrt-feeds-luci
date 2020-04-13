@@ -188,9 +188,9 @@ define Package/$(PKG_NAME)/install
 	if [ -d $(PKG_BUILD_DIR)/htdocs ]; then \
 	  $(INSTALL_DIR) $(1)$(HTDOCS); \
 	  cp -pR $(PKG_BUILD_DIR)/htdocs/* $(1)$(HTDOCS)/; \
-	  if [ -d $(PKG_BUILD_DIR)/htdocs/luci-static ]; then \
-		(cd $(1)$(HTDOCS)/assets && find -type f -name '*.less' -print0 |xargs -0 -r rm); \
-		(cd $(1)$(HTDOCS)/luci-static && find -type f -name '*.less' -print0 |xargs -0 -r rm); \
+	  if [ -d $(PKG_BUILD_DIR)/htdocs ]; then \
+		(cd $(1)$(HTDOCS)/assets 2>/dev/null && find -type f -name '*.less' -print0 |xargs -0 -r rm || true); \
+		(cd $(1)$(HTDOCS)/luci-static 2>/dev/null && find -type f -name '*.less' -print0 |xargs -0 -r rm || true); \
 	  fi; \
 	else true; fi
 	if [ -d $(PKG_BUILD_DIR)/root ]; then \
