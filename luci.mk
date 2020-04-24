@@ -189,8 +189,9 @@ define Package/$(PKG_NAME)/install
 	  $(INSTALL_DIR) $(1)$(HTDOCS); \
 	  cp -pR $(PKG_BUILD_DIR)/htdocs/* $(1)$(HTDOCS)/; \
 	  if [ -d $(PKG_BUILD_DIR)/htdocs ]; then \
-		(cd $(1)$(HTDOCS)/assets 2>/dev/null && find -type f -name '*.less' -print0 |xargs -0 -r rm || true); \
-		(cd $(1)$(HTDOCS)/luci-static 2>/dev/null && find -type f -name '*.less' -print0 |xargs -0 -r rm || true); \
+	    (cd $(1)$(HTDOCS) 2>/dev/null && find -type d -name '.vscode' -print0 |xargs -0 -r rm -rf || true); \
+	    (cd $(1)$(HTDOCS)/assets 2>/dev/null && find -type f -name '*.less' -print0 |xargs -0 -r rm || true); \
+	    (cd $(1)$(HTDOCS)/luci-static 2>/dev/null && find -type f -name '*.less' -print0 |xargs -0 -r rm || true); \
 	  fi; \
 	else true; fi
 	if [ -d $(PKG_BUILD_DIR)/root ]; then \
@@ -203,8 +204,9 @@ define Package/$(PKG_NAME)/install
 	else true; fi
 
 	if [ "$(LUCI_MAKE_LUAC)" != "" -a -d "$(1)$(LUCI_LIBRARYDIR)" ]; then \
-		(cd "$(1)$(LUCI_LIBRARYDIR)" && find . -type f -name '*.lua' ! -name "ccache.lua" ! -name "debug.lua" -exec $(STAGING_DIR_HOSTPKG)/bin/luac -s -o {} {} \;); \
+	    (cd "$(1)$(LUCI_LIBRARYDIR)" && find . -type f -name '*.lua' ! -name "ccache.lua" ! -name "debug.lua" -exec $(STAGING_DIR_HOSTPKG)/bin/luac -s -o {} {} \;); \
 	else true; fi
+
 	(cd "$(1)" && find . -type d -exec chmod 0755 {} \;) || true;
 	(cd "$(1)" && find . -type f -exec chmod 0644 {} \;) || true;
 	if [ -d "$(1)/bin" ]; then chmod 0755 -R "$(1)/bin"; else true; fi
