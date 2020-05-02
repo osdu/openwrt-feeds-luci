@@ -36,8 +36,8 @@ LUCI_LANG.sv=Svenska (Swedish)
 LUCI_LANG.tr=Türkçe (Turkish)
 LUCI_LANG.uk=Українська (Ukrainian)
 LUCI_LANG.vi=Tiếng Việt (Vietnamese)
-LUCI_LANG.zh-cn=简体中文 (Chinese)
-LUCI_LANG.zh-tw=繁體中文 (Taiwanese)
+LUCI_LANG.zh-cn=简体中文 (Simplified Chinese)
+LUCI_LANG.zh-tw=繁體中文 (Traditional Chinese)
 
 # Submenu titles
 LUCI_MENU.col=1. Collections
@@ -96,13 +96,13 @@ define Package/$(PKG_NAME)
   SUBMENU:=$(if $(LUCI_MENU.$(LUCI_TYPE)),$(LUCI_MENU.$(LUCI_TYPE)),$(LUCI_MENU.app))
   TITLE:=$(if $(LUCI_TITLE),$(LUCI_TITLE),LuCI $(LUCI_NAME) $(LUCI_TYPE))
   DEPENDS:=$(LUCI_DEPENDS)
-  $(if $(LUCI_EXTRA_DEPENDS),EXTRA_DEPENDS:=$(LUCI_EXTRA_DEPENDS))
   $(if $(LUCI_PKGARCH),PKGARCH:=$(LUCI_PKGARCH))
   $(if $(LUCI_CONFLICTS),CONFLICTS:=$(LUCI_CONFLICTS))
   $(if $(LUCI_REPLACES),REPLACES:=$(LUCI_REPLACES))
   $(if $(LUCI_PROVIDES),PROVIDES:=$(LUCI_PROVIDES))
   $(if $(LUCI_SUGGESTS),SUGGESTS:=$(LUCI_SUGGESTS))
   $(if $(LUCI_RECOMMENDS),RECOMMENDS:=$(LUCI_RECOMMENDS))
+  $(if $(LUCI_EXTRA_DEPENDS),EXTRA_DEPENDS:=$(LUCI_EXTRA_DEPENDS))
 endef
 
 ifneq ($(PKG_SUBDIR),)
