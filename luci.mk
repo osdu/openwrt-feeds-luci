@@ -173,6 +173,7 @@ define SubstituteVersion
 	$(FIND) $(1) -type f -name '*.htm' | while read src; do \
 		$(SED) 's/<%# *\([^ ]*\)PKG_VERSION *%>/\1$(PKG_VERSION)/g' \
 		    -e 's/"\(<%= *\(media\|resource\) *%>[^"]*\.\(js\|css\)\)"/"\1?v=$(PKG_VERSION)"/g' \
+		    -e 's/"\([^"]*\.\(js\|css\|json\|ico\|png\|jpg\)\)">/"\1?v=$(PKG_VERSION)">/g' \
 			"$$$$src"; \
 	done
 endef
