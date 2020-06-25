@@ -2,15 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: luci-app-ddns 2.4.0-1\n"
 "POT-Creation-Date: 2016-01-30 11:07+0100\n"
-"PO-Revision-Date: 2013-10-05 17:19+0200\n"
-"Last-Translator: Kentaro <kentaro.matsuyama@gmail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2020-06-19 10:06+0000\n"
+"Last-Translator: Satoru Yoshida <ramat@ram.ne.jp>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/openwrt/"
+"luciapplicationsddns/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.4\n"
+"X-Generator: Weblate 4.1.1\n"
 
 msgid "&"
 msgstr ""
@@ -22,7 +23,7 @@ msgid "-- default --"
 msgstr ""
 
 msgid "Advanced Settings"
-msgstr ""
+msgstr "詳細設定"
 
 msgid "Allow non-public IP's"
 msgstr ""
@@ -31,7 +32,7 @@ msgid "Applying changes"
 msgstr ""
 
 msgid "Basic Settings"
-msgstr ""
+msgstr "基本設定"
 
 msgid ""
 "Below a list of configuration tips for your system to run Dynamic DNS "
@@ -79,7 +80,7 @@ msgid "Config error"
 msgstr ""
 
 msgid "Configuration"
-msgstr ""
+msgstr "設定"
 
 msgid ""
 "Configure here the details for all Dynamic DNS services including this LuCI "
@@ -172,7 +173,7 @@ msgid ""
 msgstr ""
 
 msgid "Disabled"
-msgstr ""
+msgstr "無効"
 
 msgid "Domain"
 msgstr ""
@@ -191,10 +192,10 @@ msgid "Enable secure communication with DDNS provider"
 msgstr ""
 
 msgid "Enabled"
-msgstr ""
+msgstr "有効"
 
 msgid "Error"
-msgstr ""
+msgstr "エラー"
 
 msgid "Error Retry Counter"
 msgstr ""
@@ -206,7 +207,7 @@ msgid "Event Network"
 msgstr ""
 
 msgid "File"
-msgstr ""
+msgstr "ファイル"
 
 msgid "File not found"
 msgstr ""
@@ -270,7 +271,7 @@ msgid "IP address version"
 msgstr ""
 
 msgid "IPv4-Address"
-msgstr ""
+msgstr "IPv4 アドレス"
 
 msgid "IPv6 address must be given in square brackets"
 msgstr ""
@@ -285,7 +286,7 @@ msgid "IPv6 not supported"
 msgstr ""
 
 msgid "IPv6-Address"
-msgstr ""
+msgstr "IPv6 アドレス"
 
 msgid "If both cURL and GNU Wget are installed, Wget is used by default."
 msgstr ""
@@ -308,7 +309,7 @@ msgid ""
 msgstr ""
 
 msgid "Info"
-msgstr ""
+msgstr "情報"
 
 msgid ""
 "Install 'ca-certificates' package or needed certificates by hand into /etc/"
@@ -342,7 +343,7 @@ msgid "Log File Viewer"
 msgstr ""
 
 msgid "Log directory"
-msgstr ""
+msgstr "ログ・ディレクトリ"
 
 msgid "Log length"
 msgstr ""
@@ -376,7 +377,7 @@ msgid "Network on which the ddns-updater scripts will be started"
 msgstr ""
 
 msgid "Never"
-msgstr ""
+msgstr "無し"
 
 msgid "Next Update"
 msgstr ""
@@ -394,7 +395,7 @@ msgid "Non-public and by default blocked IP's"
 msgstr ""
 
 msgid "Notice"
-msgstr ""
+msgstr "注意"
 
 msgid "Number of last lines stored in log files"
 msgstr ""
@@ -448,7 +449,7 @@ msgid "Password"
 msgstr "パスワード"
 
 msgid "Path to CA-Certificate"
-msgstr ""
+msgstr "CA 証明書へのパス"
 
 msgid "Please [Save & Apply] your changes first"
 msgstr ""
@@ -572,7 +573,7 @@ msgid "Waiting for changes to be applied..."
 msgstr ""
 
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 msgid ""
 "Writes detailed messages to log file. File will be truncated automatically."
@@ -638,11 +639,8 @@ msgstr ""
 msgid "file or directory not found or not 'IGNORE'"
 msgstr ""
 
-msgid "help"
-msgstr ""
-
 msgid "hours"
-msgstr ""
+msgstr "時間"
 
 msgid "installed"
 msgstr ""
@@ -660,7 +658,7 @@ msgid "minimum value 5 minutes == 300 seconds"
 msgstr ""
 
 msgid "minutes"
-msgstr ""
+msgstr "分"
 
 msgid "missing / required"
 msgstr ""
