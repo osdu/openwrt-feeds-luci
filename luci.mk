@@ -192,7 +192,8 @@ define Package/$(PKG_NAME)/install
 	  if [ -d $(PKG_BUILD_DIR)/htdocs ]; then \
 	    (cd $(1)$(HTDOCS) 2>/dev/null && find -type d \( -name '.vscode' -o -name '_less' \) -print0 | xargs -0 -r -n1 rm -rf || true); \
 	    (cd $(1)$(HTDOCS)/assets 2>/dev/null && find -type f -name '*.less' -print0 | xargs -0 -r rm || true); \
-	    (cd $(1)$(HTDOCS)/luci-static 2>/dev/null && find -type f -name '*.less' -print0 | xargs -0 -r rm || true); \
+	    (cd $(1)$(HTDOCS)/luci-static 2>/dev/null && find -type f -name '*.less' -print0 |xargs -0 -r rm || true); \
+	    (cd $(1)$(HTDOCS)/luci-static 2>/dev/null && find -type f -name '*.css' -print0 |xargs -0 -r -n 1 sed -i '/sourceMappingURL/d' || true); \
 	  fi; \
 	else true; fi
 	if [ -d $(PKG_BUILD_DIR)/root ]; then \
