@@ -213,6 +213,7 @@ define Package/$(PKG_NAME)/install
 	(cd "$(1)" && find . -type f -exec chmod 0644 {} \;) || true;
 	if [ -d "$(1)/bin" ]; then chmod 0755 -R "$(1)/bin"; else true; fi
 	if [ -d "$(1)/sbin" ]; then chmod 0755 -R "$(1)/sbin"; else true; fi
+	if [ -d "$(1)/usr/lib" ]; then chmod 0755 -R "$(1)/usr/lib"; else true; fi
 	if [ -d "$(1)/usr/bin" ]; then chmod 0755 -R "$(1)/usr/bin"; else true; fi
 	if [ -d "$(1)/usr/sbin" ]; then chmod 0755 -R "$(1)/usr/sbin"; else true; fi
 	if [ -d "$(1)/etc/init.d" ]; then chmod 0755 -R "$(1)/etc/init.d"; else true; fi
