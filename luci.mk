@@ -211,16 +211,16 @@ define Package/$(PKG_NAME)/install
 
 	(cd "$(1)" && find . -type d -exec chmod 0755 {} \;) || true;
 	(cd "$(1)" && find . -type f -exec chmod 0644 {} \;) || true;
-	if [ -d "$(1)/bin" ]; then chmod 0755 -R "$(1)/bin"; else true; fi
-	if [ -d "$(1)/sbin" ]; then chmod 0755 -R "$(1)/sbin"; else true; fi
-	if [ -d "$(1)/usr/lib" ]; then chmod 0755 -R "$(1)/usr/lib"; else true; fi
-	if [ -d "$(1)/usr/libexec" ]; then chmod 0755 -R "$(1)/usr/libexec"; else true; fi
-	if [ -d "$(1)/usr/bin" ]; then chmod 0755 -R "$(1)/usr/bin"; else true; fi
-	if [ -d "$(1)/usr/sbin" ]; then chmod 0755 -R "$(1)/usr/sbin"; else true; fi
-	if [ -d "$(1)/etc/init.d" ]; then chmod 0755 -R "$(1)/etc/init.d"; else true; fi
-	if [ -d "$(1)/etc/cron.d" ]; then chmod 0755 -R "$(1)/etc/cron.d"; else true; fi
-	if [ -d "$(1)/etc/firewall.d" ]; then chmod 0755 -R "$(1)/etc/firewall.d"; else true; fi
-	if [ -d "$(1)/www/cgi-bin" ]; then chmod 0755 -R "$(1)/www/cgi-bin"; else true; fi
+
+	[ ! -d "$(1)/bin" ] || chmod 0755 -R "$(1)/bin"
+	[ ! -d "$(1)/sbin" ] ||  chmod 0755 -R "$(1)/sbin"
+	[ ! -d "$(1)/www/cgi-bin" ] || chmod 0755 -R "$(1)/www/cgi-bin"
+	$(foreach name,bin sbin lib libexec,\
+		[ ! -d "$(1)/usr/$(name)" ] || chmod 0755 -R "$(1)/usr/$(name)"; \
+	)
+	$(foreach name,init.d firewall.d cron.d cron.daily cron.hourly cron.monthly cron.weekly,\
+		[ ! -d "$(1)/etc/$(name)" ] || chmod 0755 -R "$(1)/etc/$(name)"; \
+	)
 endef
 
 ifneq ($(LUCI_DEFAULTS),)
