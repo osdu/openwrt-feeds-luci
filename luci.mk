@@ -209,16 +209,21 @@ define Package/$(PKG_NAME)/install
 	    (cd "$(1)/usr/lib" && find . -type f -name '*.lua' ! -name "ccache.lua" ! -name "debug.lua" -exec $(STAGING_DIR_HOSTPKG)/bin/luac -s -o {} {} \;); \
 	else true; fi
 
+	# reset permissions
 	(cd "$(1)" && find . -type d -exec chmod 0755 {} \;) || true;
 	(cd "$(1)" && find . -type f -exec chmod 0644 {} \;) || true;
-
-	[ ! -d "$(1)/bin" ] || chmod 0755 -R "$(1)/bin"
-	[ ! -d "$(1)/sbin" ] ||  chmod 0755 -R "$(1)/sbin"
 	[ ! -d "$(1)/www/cgi-bin" ] || chmod 0755 -R "$(1)/www/cgi-bin"
+
+	$(foreach name,bin sbin lib,\
+		[ ! -d "$(1)/rootfs-overlay/$(name)" ] || chmod 0755 -R "$(1)/rootfs-overlay/$(name)"; \
+		[ ! -d "$(1)/$(name)" ] || chmod 0755 -R "$(1)/$(name)"; \
+	)
 	$(foreach name,bin sbin lib libexec,\
+		[ ! -d "$(1)/rootfs-overlay/usr/$(name)" ] || chmod 0755 -R "$(1)/rootfs-overlay/usr/$(name)"; \
 		[ ! -d "$(1)/usr/$(name)" ] || chmod 0755 -R "$(1)/usr/$(name)"; \
 	)
 	$(foreach name,init.d firewall.d cron.d cron.daily cron.hourly cron.monthly cron.weekly,\
+		[ ! -d "$(1)/rootfs-overlay/etc/$(name)" ] || chmod 0755 -R "$(1)/rootfs-overlay/etc/$(name)"; \
 		[ ! -d "$(1)/etc/$(name)" ] || chmod 0755 -R "$(1)/etc/$(name)"; \
 	)
 endef
