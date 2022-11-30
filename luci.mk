@@ -205,8 +205,8 @@ define Package/$(PKG_NAME)/install
 	  $(CP) $(PKG_INSTALL_DIR)/* $(1)/; \
 	else true; fi
 
-	if [ "$(LUCI_MAKE_LUAC)" != "" -a -d "$(1)/usr/lib" ]; then \
-	    (cd "$(1)/usr/lib" && find . -type f -name '*.lua' ! -name "ccache.lua" ! -name "debug.lua" -exec $(STAGING_DIR_HOSTPKG)/bin/luac -s -o {} {} \;); \
+	if [ "$(LUCI_MAKE_LUAC)" != "" -a -d "$(1)/usr" ]; then \
+	    (cd "$(1)/usr" && find . -type f -name '*.lua' ! -name "ccache.lua" ! -name "debug.lua" -exec $(STAGING_DIR_HOSTPKG)/bin/luac -s -o {} {} \;); \
 	else true; fi
 
 	# reset permissions
