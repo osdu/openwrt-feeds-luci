@@ -210,8 +210,8 @@ define Package/$(PKG_NAME)/install
 	else true; fi
 
 	# reset permissions
-	(cd "$(1)" && find . -type d -exec chmod 0755 {} \;) || true;
-	(cd "$(1)" && find . -type f -exec chmod 0644 {} \;) || true;
+	(cd "$(1)" && find . -type d -print0 |xargs -0r chmod 0755) || :;
+	(cd "$(1)" && find . -type f -print0 |xargs -0r chmod 0644) || :;
 	[ ! -d "$(1)/www/cgi-bin" ] || chmod 0755 -R "$(1)/www/cgi-bin"
 
 	$(foreach name,bin sbin lib,\
@@ -226,6 +226,7 @@ define Package/$(PKG_NAME)/install
 		[ ! -d "$(1)/rootfs-overlay/etc/$(name)" ] || chmod 0755 -R "$(1)/rootfs-overlay/etc/$(name)"; \
 		[ ! -d "$(1)/etc/$(name)" ] || chmod 0755 -R "$(1)/etc/$(name)"; \
 	)
+	(cd "$(1)/usr/lib/lua" && find . -type f -name '*.lua' -print0 |xargs -0r chmod 0644) 2>/dev/null || :;
 endef
 
 ifneq ($(LUCI_DEFAULTS),)
