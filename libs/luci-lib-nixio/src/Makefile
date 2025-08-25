@@ -51,7 +51,7 @@ ifeq ($(OS),SunOS)
 endif
 
 ifneq (,$(findstring MINGW,$(OS))$(findstring mingw,$(OS))$(findstring Windows,$(OS)))
-	NIXIO_CROSS_CC:=$(shell which i586-mingw32msvc-cc)
+	NIXIO_CROSS_CC:=$(shell command -v i586-mingw32msvc-cc)
 ifneq (,$(NIXIO_CROSS_CC))
 	CC:=$(NIXIO_CROSS_CC)
 endif
@@ -97,7 +97,7 @@ $(AXTLS_DIR)/.prepared:
 
 libaxtls.a: $(AXTLS_DIR)/.prepared
 	$(MAKE) -C $(AXTLS_DIR) CC="$(CC)" CFLAGS="$(CFLAGS) $(EXTRA_CFLAGS) $(FPIC) -Wall -pedantic -I../config -I../ssl -I../crypto" LDFLAGS="$(LDFLAGS)" OS="$(OS)" clean all
-	cp -p $(AXTLS_DIR)/_stage/libaxtls.a src
+	cp -p $(AXTLS_DIR)/_stage/libaxtls.a ../src
 	# *************************************************************************
 	#
 	#
