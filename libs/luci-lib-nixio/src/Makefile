@@ -2,7 +2,7 @@ OS            = Linux
 AXTLS_VERSION = 1.2.1
 AXTLS_DIR     = axTLS
 AXTLS_FILE    = $(AXTLS_DIR)-$(AXTLS_VERSION).tar.gz
-NIXIO_TLS    ?= openssl
+NIXIO_TLS    ?= axtls
 NIXIO_SHADOW ?= $(shell echo 'int main(void){ return !getspnam("root"); }' | $(CC) $(CFLAGS) -include shadow.h -xc -o/dev/null - 2>/dev/null && echo yes)
 NIXIO_SO      = nixio.so
 NIXIO_LDFLAGS = -llua -lm -ldl
@@ -66,7 +66,7 @@ endif
 
 
 %.o: %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) $(NIXIO_CFLAGS) $(LUA_CFLAGS) $(FPIC) -c -o $@ $< 
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(NIXIO_CFLAGS) $(LUA_CFLAGS) $(FPIC) -c -o $@ $<
 
 ifneq ($(NIXIO_TLS),)
 tls-crypto.o: $(TLS_DEPENDS) tls-crypto.c
@@ -74,15 +74,15 @@ tls-crypto.o: $(TLS_DEPENDS) tls-crypto.c
 
 tls-context.o: $(TLS_DEPENDS) tls-context.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(NIXIO_CFLAGS) $(LUA_CFLAGS) $(FPIC) $(TLS_CFLAGS) -c -o $@ tls-context.c
-	
+
 tls-socket.o: $(TLS_DEPENDS) tls-socket.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(NIXIO_CFLAGS) $(LUA_CFLAGS) $(FPIC) $(TLS_CFLAGS) -c -o $@ tls-socket.c
-	
+
 axtls-compat.o: libaxtls.a axtls-compat.c
 	$(CC) $(CPPFLAGS) $(CFLAGS) $(NIXIO_CFLAGS) $(LUA_CFLAGS) $(FPIC) $(TLS_CFLAGS) -c -o $@ axtls-compat.c
 	mkdir -p dist
 	cp -pR axtls-root/* dist/
-endif	
+endif
 
 compile: $(NIXIO_OBJ)
 	$(CC) $(LDFLAGS) $(SHLIB_FLAGS) -o $(NIXIO_SO) $(NIXIO_OBJ) $(NIXIO_LDFLAGS) $(NIXIO_LDFLAGS_POST)
