@@ -252,7 +252,7 @@ define LuciTranslation
     PKGARCH:=all
   endef
 
-  Package/luci-i18n-$(LUCI_BASENAME)-$(1)/subdir=$(call Package/$(PKG_NAME)/subdir)
+  Package/luci-i18n-$(LUCI_BASENAME)-$(1)/subdir=$(if $(call Package/$(PKG_NAME)/subdir),$(call Package/$(PKG_NAME)/subdir)/i18n)
 
   define Package/luci-i18n-$(LUCI_BASENAME)-$(1)/description
     Translation for $(PKG_NAME) - $(LUCI_LANG.$(1))
